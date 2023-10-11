@@ -1,5 +1,56 @@
 /* Your Code Here */
+function createEmployeeRecord(employeeInfo) {
+    return {
+      firstName: employeeInfo[0],
+      familyName: employeeInfo[1],
+      title: employeeInfo[2],
+      payPerHour: employeeInfo[3],
+      timeInEvents: [],
+      timeOutEvents: []
+    };
+  }
+  function createEmployeeRecords(employeeData) {
+    return employeeData.map(createEmployeeRecord);
+  }
+  function createTimeInEvent(dateString) {
+    const [date, hour] = dateString.split(" ");
+    this.timeInEvents.push({
+      type: "TimeIn",
+      date: date,
+      hour: parseInt(hour)
+    });
+    return this;
+  }
 
+  function createTimeOutEvent(dateString) {
+    const [date, hour] = dateString.split(" ");
+    this.timeOutEvents.push({
+      type: "TimeOut",
+      date: date,
+      hour: parseInt(hour)
+    });
+    return this;
+  }
+
+  function hoursWorkedOnDate(date) {
+    const timeInEvent = this.timeInEvents.find(function (event) {
+      return event.date === date;
+    });
+    const timeOutEvent = this.timeOutEvents.find(function (event) {
+      return event.date === date;
+    });
+    const hoursWorked = (timeOutEvent.hour - timeInEvent.hour) / 100;
+    return hoursWorked;
+  }
+  
+  function wagesEarnedOnDate(date) {
+    const hoursWorked = hoursWorkedOnDate.call(this, date);
+    const wagesEarned = hoursWorked * this.payPerHour;
+    return wagesEarned;
+  }
+
+  
+  
 /*
  We're giving you this function. Take a look at it, you might see some usage
  that's new and different. That's because we're avoiding a well-known, but
@@ -21,3 +72,5 @@ const allWagesFor = function () {
     return payable
 }
 
+
+  
